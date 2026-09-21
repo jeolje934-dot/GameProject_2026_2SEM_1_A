@@ -1,5 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
+
+
+public enum PlayerState
+{
+    Normal,
+
+    Pickup,
+}
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,6 +34,7 @@ public class PlayerController : MonoBehaviour
 
     private float verticalVeolocity;                            //수평이동의 속도값 정의
 
+    private PlayerState currentState = PlayerState.Normal;
 
 
     private void Awake()
@@ -32,14 +42,44 @@ public class PlayerController : MonoBehaviour
         controller = GetComponent<CharacterController>();
     }
 
+    
+
     void Update()
     {
         //1. WASD 입력
+
         Keyboard keyboard = Keyboard.current;
+
         if (keyboard == null)
         {
             return;
         }
+
+        //상타와 관계없이 중력은 계속 적용
+        ApplyGravity();
+
+        //Nomal 상태가 아니면 이동 입력을 받지 않는다.
+        if (currentState != PlayerState.Normal) return;
+
+        HandleMovement(keyboard);
+    }
+
+    private void ApplyGravity()
+    {
+        //7. 기본 중력 설정
+        if (controller.isGrounded && verticalVeolocity < 0f)
+        {
+            verticalVeolocity = -2f;
+        }
+        else
+        {
+            verticalVeolocity += gravity * Time.deltaTime;
+        }
+        controller.Move(Vector3.up * verticalVeolocity * Time.deltaTime);   // 컨트롤러에 이동 방향과 속도를 준다.
+    }
+
+    private void HandleMovement(Keyboard keyboard)
+    {
         Vector2 input = Vector2.zero;
         if (keyboard.aKey.isPressed)
             input.x -= 1f;
@@ -81,6 +121,7 @@ public class PlayerController : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
+
         //7. 기본 중력 설정
         if (controller.isGrounded && verticalVeolocity < 0f)
         {
@@ -91,6 +132,7 @@ public class PlayerController : MonoBehaviour
             verticalVeolocity += gravity * Time.deltaTime;
         }
         controller.Move(Vector3.up * verticalVeolocity * Time.deltaTime);   // 컨트롤러에 이동 방향과 속도를 준다.
+
 
         //8. Idle, Walk, Run 애니메이션 
 
@@ -103,6 +145,17 @@ public class PlayerController : MonoBehaviour
 
         }
         animator.SetFloat("speed", animationSpeed, 0.1f, Time.deltaTime);
+    }
+
+    public void ChangeState(PlayerState newState)
+    {
+        currentState = newState;
+
+        if (currentState != PlayerState.Normal)
+        {
+            animator.SetFloat("speed", 0f);
+        }
+        Debug.Log("현재 상태 : " + currentState);
     }
 }
 
