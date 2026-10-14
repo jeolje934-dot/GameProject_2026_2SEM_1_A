@@ -55,6 +55,20 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        Vector2 input = Vector2.zero;
+
+        if (keyboard.aKey.isPressed)
+            input.x -= 1f;
+        if (keyboard.dKey.isPressed)
+            input.x += 1f;
+        if (keyboard.sKey.isPressed)
+            input.y -= 1f;
+        if (keyboard.wKey.isPressed)
+            input.y += 1f;
+
+        input = Vector2.ClampMagnitude(input, 1f);
+
+
         //상타와 관계없이 중력은 계속 적용
         ApplyGravity();
 

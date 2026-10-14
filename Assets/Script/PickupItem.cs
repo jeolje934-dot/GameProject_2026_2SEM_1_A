@@ -16,6 +16,7 @@ public class PickupItem : MonoBehaviour
 
     [SerializeField] private float floatngSpeed = 2f;
 
+
     private Vector3 startPosition;
 
 
@@ -34,6 +35,11 @@ public class PickupItem : MonoBehaviour
         float y = Mathf.Sin(Time.time * floatngSpeed) * floatingHeight;
         transform.position = startPosition + Vector3.up * y;
 
+    }
+
+    public string GetItemName()
+    {
+        return itemName;
     }
     public void Collect()
     {

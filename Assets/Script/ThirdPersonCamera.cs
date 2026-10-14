@@ -55,6 +55,11 @@ public class ThirdPersonCamera : MonoBehaviour
         pitch -= mouseDelta.y * mouseSensitiviity;
         pitch = Mathf.Clamp(distanace, minDistance, maxDistance);
 
+        //마우스 휠 확대와 축소
+        float scroll = mouse.delta.ReadValue().y;
+
+        distanace -= scroll * zoomSpeed;
+        distanace = Mathf.Clamp(distanace, minDistance, maxDistance);   
     }
 
     private void LateUpdate()
@@ -63,6 +68,8 @@ public class ThirdPersonCamera : MonoBehaviour
         {
             return;
         }
+
+
         //카메라가 바라볼 위치
         Vector3 lookInput = target.position + Vector3.up * height;
 

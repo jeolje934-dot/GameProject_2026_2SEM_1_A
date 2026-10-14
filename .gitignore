@@ -105,3 +105,5 @@ InitTestScene*.unity*
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
 Assets/Library
+Assets
+GameProject_2026_2SEM_1_A/Library

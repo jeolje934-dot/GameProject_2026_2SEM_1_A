@@ -12,7 +12,9 @@ namespace VoxelLessons.Editor
     public static class GltfAssetExtractor
     {
         private const uint GlbMagic = 0x46546C67;
+
         private const uint JsonChunk = 0x4E4F534A;
+
         private const uint BinaryChunk = 0x004E4942;
 
         [Serializable] private sealed class GltfRoot { public GltfImage[] images; public GltfBufferView[] bufferViews; }
