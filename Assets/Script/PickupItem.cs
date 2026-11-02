@@ -8,8 +8,6 @@ public class PickupItem : MonoBehaviour
 
     [SerializeField] private int amount = 1;
 
-    [SerializeField] QuestManager questManager;
-
     [Header("»≠∏È ø¨√‚")]
 
     [SerializeField] private float rotationSpeed = 60f;
@@ -21,10 +19,6 @@ public class PickupItem : MonoBehaviour
 
     private Vector3 startPosition;
 
-    public void Awake()
-    {
-        questManager = FindFirstObjectByType<QuestManager>();
-    }
 
     void Start()
     {
@@ -50,7 +44,6 @@ public class PickupItem : MonoBehaviour
     public void Collect()
     {
         Debug.Log(itemName + " " + amount + "∞≥ »πµÊ");
-        questManager.AddQuestItem(itemName, amount);
         Destroy(gameObject);
 
     }
